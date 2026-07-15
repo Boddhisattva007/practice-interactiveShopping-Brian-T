@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Shopping List</title>
+</head>
+<body>
+
+    <form>
+        <fieldset>
+            <legend>Shopping List:</legend>
+
+            <label for="new-item">New Item:</label>
+
+            <input
+                type="text"
+                id="new-item"
+                placeholder="Please Enter Item"
+                required
+            >
+
+            <button type="button" id="add-item">Add Item</button>
+
+            <ul id="shoppingList"></ul>
+        </fieldset>
+    </form>
+
+    <script>
+        // Cache the main DOM elements.
+        const itemInput = document.getElementById("new-item");
+        const addBtn = document.getElementById("add-item");
+        const shoppingList = document.getElementById("shoppingList");
+
+        // Add Item
+        addBtn.addEventListener("click", function () {
+            const text = itemInput.value.trim();
+
+            if (text === "") {
+                alert("Please enter an item.");
+                return;
+            }
+
+            // Create a new list item.
+            const li = document.createElement("li");
+
+            // Create a span for the item text.
+            const span = document.createElement("span");
+            span.className = "item-text";
+            span.textContent = text;
+
+            // Create a container for the buttons.
+            const actions = document.createElement("div");
+            actions.className = "actions";
+
+            // Create the Edit button.
+            const editBtn = document.createElement("button");
+            editBtn.type = "button";
+            editBtn.textContent = "Edit";
+
+            // Create the Remove button.
+            const removeBtn = document.createElement("button");
+            removeBtn.type = "button";
+            removeBtn.textContent = "Remove";
+
+            // Add the buttons to the actions div.
+            actions.appendChild(editBtn);
+            actions.appendChild(removeBtn);
+
+            // Add the text and actions to the list item.
+            li.appendChild(span);
+            li.appendChild(actions);
+
+            // Add the list item to the shopping list.
+            shoppingList.appendChild(li);
+
+            // Clear the input field.
+            itemInput.value = "";
+
+            // Return the cursor to the input field.
+            itemInput.focus();
+
+            // Remove Item
+            removeBtn.addEventListener("click", function () {
+                li.remove();
+            });
+
+            // Edit and Save Item
+            editBtn.addEventListener("click", function () {
+                if (editBtn.textContent === "Edit") {
+                    const editInput = document.createElement("input");
+
+                    editInput.type = "text";
+                    editInput.value = span.textContent;
+
+                    li.replaceChild(editInput, span);
+
+                    editBtn.textContent = "Save";
+                    editInput.focus();
+                } else {
+                    const editInput = li.querySelector("input");
+                    const updatedText = editInput.value.trim();
+
+                    if (updatedText === "") {
+                        alert("Please enter an item.");
+                        return;
+                    }
+
+                    span.textContent = updatedText;
+
+                    li.replaceChild(span, editInput);
+
+                    editBtn.textContent = "Edit";
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
