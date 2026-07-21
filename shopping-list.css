@@ -1,0 +1,16 @@
+#shopping-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#shopping-list li {
+    margin-bottom: 10px;
+}
+
+#shopping-list button {
+    margin-right: 10px;
+}
+
+.item-bullet {
+    margin-right: 8px;
+}
